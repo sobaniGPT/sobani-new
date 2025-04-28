@@ -6,7 +6,9 @@ const app = express();
 
 // Firebase Admin 初期化
 const admin = require('firebase-admin');
-const serviceAccount = require('./firebaseKey.json');
+
+// ここを書き換え（環境変数から読み込む形）
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
