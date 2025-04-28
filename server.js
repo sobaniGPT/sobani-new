@@ -4,6 +4,16 @@ require('dotenv').config();
 
 const app = express();
 
+// Firebase Admin 初期化
+const admin = require('firebase-admin');
+const serviceAccount = require('./firebaseKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+
 // LINE設定
 const config = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
@@ -29,8 +39,17 @@ async function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  const echo = { type: 'text', text: `受け取ったよ: ${event.message.text}` };
+  const text = event.message.text;
+  const userId = event.source.userId;
 
+  // Firestoreに保存
+  await db.collection('logs').add({
+    text: text,
+    userId: userId,
+    timestamp: Date.now()
+  });
+
+  const echo = { type: 'text', text: `受け取ったよ: ${text}` };
   return client.replyMessage(event.replyToken, echo);
 }
 

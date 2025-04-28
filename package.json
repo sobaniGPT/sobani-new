@@ -3,12 +3,12 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js"
     },
     "dependencies": {
-      "express": "^4.18.2",
-      "@line/bot-sdk": "^7.5.1",
-      "dotenv": "^16.0.3"
+        "@line/bot-sdk": "^7.5.1",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "firebase-admin": "^13.3.0"
     }
-  }
-  
+}
